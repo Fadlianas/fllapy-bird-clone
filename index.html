@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="dark-mode">
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui-layer">
+            <button id="theme-toggle" aria-label="Toggle Dark Mode">☀️</button>
+            <div id="score-container">
+                <div id="score">0</div>
+                <div id="best-score">Best: <span id="best-score-val">0</span></div>
+            </div>
+            <div id="start-screen" class="screen active">
+                <h1>Flappy Bird</h1>
+                <p>Click or Space to Jump</p>
+
+                <div class="avatar-selection">
+                    <h3>Choose Avatar</h3>
+                    <div class="avatars-container">
+                        <div class="avatar-option selected" data-color="#fab1a0" style="background: #fab1a0;"></div>
+                        <div class="avatar-option" data-color="#55efc4" style="background: #55efc4;"></div>
+                        <div class="avatar-option" data-color="#a29bfe" style="background: #a29bfe;"></div>
+                        <div class="avatar-option" data-color="#ffeaa7" style="background: #ffeaa7;"></div>
+                        <div class="avatar-option" data-color="#74b9ff" style="background: #74b9ff;"></div>
+                    </div>
+                </div>
+
+                <button id="start-btn">Start Game</button>
+            </div>
+            <div id="game-over-screen" class="screen">
+                <h1>Game Over</h1>
+                <p>Score: <span id="final-score">0</span></p>
+                <p class="best-score-display">Best: <span id="final-best-score">0</span></p>
+                <button id="restart-btn">Try Again</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
