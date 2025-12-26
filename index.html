@@ -20,16 +20,48 @@
             </div>
             <div id="start-screen" class="screen active">
                 <h1>Flappy Bird</h1>
-                <p>Click or Space to Jump</p>
 
-                <div class="avatar-selection">
-                    <h3>Choose Avatar</h3>
-                    <div class="avatars-container">
-                        <div class="avatar-option selected" data-color="#fab1a0" style="background: #fab1a0;"></div>
-                        <div class="avatar-option" data-color="#55efc4" style="background: #55efc4;"></div>
-                        <div class="avatar-option" data-color="#a29bfe" style="background: #a29bfe;"></div>
-                        <div class="avatar-option" data-color="#ffeaa7" style="background: #ffeaa7;"></div>
-                        <div class="avatar-option" data-color="#74b9ff" style="background: #74b9ff;"></div>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <h3>Visual Style</h3>
+                        <div class="mode-options">
+                            <button class="mode-btn selected" data-mode="MINIMALIST">Minimalist</button>
+                            <button class="mode-btn" data-mode="REALISTIC">Realistic</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <h3>Players</h3>
+                        <div class="mode-options">
+                            <button class="player-mode-btn selected" data-mode="SINGLE">1 Player</button>
+                            <button class="player-mode-btn" data-mode="MULTI">2 Players</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="avatars-grid">
+                    <!-- Player 1 Selection -->
+                    <div id="p1-selection" class="avatar-selection">
+                        <h3>P1 (Space)</h3>
+                        <div class="avatars-container">
+                            <div class="avatar-option selected" data-color="#fab1a0" style="background: #fab1a0;"></div>
+                            <div class="avatar-option" data-color="#55efc4" style="background: #55efc4;"></div>
+                            <div class="avatar-option" data-color="#a29bfe" style="background: #a29bfe;"></div>
+                            <div class="avatar-option" data-color="#ffeaa7" style="background: #ffeaa7;"></div>
+                            <div class="avatar-option" data-color="#74b9ff" style="background: #74b9ff;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Player 2 Selection (Hidden by default) -->
+                    <div id="p2-selection" class="avatar-selection" style="display: none;">
+                        <h3>P2 (0 Key)</h3>
+                        <div class="avatars-container">
+                            <div class="avatar-option" data-color="#fab1a0" style="background: #fab1a0;"></div>
+                            <div class="avatar-option selected" data-color="#55efc4" style="background: #55efc4;"></div>
+                            <div class="avatar-option" data-color="#a29bfe" style="background: #a29bfe;"></div>
+                            <div class="avatar-option" data-color="#ffeaa7" style="background: #ffeaa7;"></div>
+                            <div class="avatar-option" data-color="#74b9ff" style="background: #74b9ff;"></div>
+                        </div>
                     </div>
                 </div>
 

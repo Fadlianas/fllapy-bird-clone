@@ -181,22 +181,82 @@ body {
     /* Smooth transition for background changes */
 }
 
+/* Mode Selection */
+.settings-grid {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.setting-group h3 {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.mode-options {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.mode-btn,
+.player-mode-btn {
+    padding: 6px 15px;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--text-color);
+    border: 2px solid transparent;
+}
+
+.mode-btn:hover,
+.player-mode-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.mode-btn.selected,
+.player-mode-btn.selected {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 /* Avatar Selection */
-.avatar-selection {
+.avatars-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     margin-bottom: 2rem;
+    align-items: center;
+}
+
+.avatar-selection {
     text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 15px;
 }
 
 .avatar-selection h3 {
     color: var(--text-color);
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
     opacity: 0.9;
 }
 
 .avatars-container {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     justify-content: center;
 }
 
