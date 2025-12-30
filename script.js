@@ -22,7 +22,7 @@ function resizeCanvas() {
 let frames = 0;
 let score = 0;
 let gameState = 'START'; // START, PLAYING, GAMEOVER
-let visualMode = 'MINIMALIST'; // MINIMALIST, REALISTIC
+let visualMode = 'REALISTIC'; // MINIMALIST, REALISTIC
 let animationId;
 
 // Elements
