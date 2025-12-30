@@ -9,14 +9,22 @@ const PIPE_SPAWN_RATE = 120; // Frames
 const PIPE_GAP = 140;
 
 // Set canvas size
+// Set canvas size
+let lastHeight = window.innerHeight;
 function resizeCanvas() {
+    const newHeight = window.innerHeight;
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    if (typeof birds !== 'undefined') {
+    canvas.height = newHeight;
+
+    // Scale bird vertical position based on height change
+    if (typeof birds !== 'undefined' && birds.length > 0) {
+        const scaleRatio = newHeight / lastHeight;
         birds.forEach(bird => {
             bird.x = window.innerWidth * 0.3;
+            if (bird.y) bird.y *= scaleRatio;
         });
     }
+    lastHeight = newHeight;
 }
 // Game State
 let frames = 0;
@@ -400,6 +408,10 @@ const pipes = {
         for (let i = 0; i < this.items.length; i++) {
             let p = this.items[i];
 
+            // Calculate bottom pipe height dynamically based on current canvas height
+            // topHeight is fixed at spawn, gap is fixed -> bottom fills the rest
+            const bottomHeight = canvas.height - p.top - PIPE_GAP;
+
             // Pipe Body Gradient (Cylindrical look for ALL modes)
             const gradient = ctx.createLinearGradient(p.x, 0, p.x + p.w, 0);
             gradient.addColorStop(0, '#2ecc71');
@@ -411,7 +423,7 @@ const pipes = {
             // Top pipe body
             ctx.fillRect(p.x, 0, p.w, p.top);
             // Bottom pipe body
-            ctx.fillRect(p.x, canvas.height - p.bottom, p.w, p.bottom);
+            ctx.fillRect(p.x, canvas.height - bottomHeight, p.w, bottomHeight);
 
             // Pipe Caps (Darker gradient)
             const capGradient = ctx.createLinearGradient(p.x - 2, 0, p.x + p.w + 4, 0);
@@ -421,7 +433,7 @@ const pipes = {
 
             ctx.fillStyle = capGradient;
             ctx.fillRect(p.x - 2, p.top - 24, p.w + 4, 24); // Top Cap
-            ctx.fillRect(p.x - 2, canvas.height - p.bottom, p.w + 4, 24); // Bottom Cap
+            ctx.fillRect(p.x - 2, canvas.height - bottomHeight, p.w + 4, 24); // Bottom Cap
 
             // Details only for REALISTIC mode
             if (visualMode === 'REALISTIC') {
@@ -438,10 +450,10 @@ const pipes = {
 
                 // Bottom pipe grass (growing up)
                 ctx.beginPath();
-                ctx.moveTo(p.x - 2, canvas.height - p.bottom);
+                ctx.moveTo(p.x - 2, canvas.height - bottomHeight);
                 for (let j = 0; j < p.w + 4; j += 6) {
-                    ctx.lineTo(p.x - 2 + j, canvas.height - p.bottom - 8 - Math.random() * 6);
-                    ctx.lineTo(p.x - 2 + j + 3, canvas.height - p.bottom);
+                    ctx.lineTo(p.x - 2 + j, canvas.height - bottomHeight - 8 - Math.random() * 6);
+                    ctx.lineTo(p.x - 2 + j + 3, canvas.height - bottomHeight);
                 }
                 ctx.fill();
             }
@@ -458,11 +470,11 @@ const pipes = {
             const maxTop = canvas.height - PIPE_GAP - minHeight;
             const topHeight = Math.floor(Math.random() * (maxTop - minHeight + 1) + minHeight);
 
+            // NOTE: We only store topHeight. Bottom is derived on draw to handle resizing.
             this.items.push({
                 x: canvas.width,
                 w: 50,
                 top: topHeight,
-                bottom: canvas.height - PIPE_GAP - topHeight,
                 passed: [] // Array of bird indices that passed this pipe
             });
         }
@@ -472,6 +484,8 @@ const pipes = {
             let p = this.items[i];
             p.x -= PIPE_SPEED;
 
+            const bottomHeight = canvas.height - p.top - PIPE_GAP;
+
             // Collision & Score for EACH bird
             birds.forEach((bird, birdIndex) => {
                 if (!bird.alive) return;
@@ -480,7 +494,7 @@ const pipes = {
                 if (
                     bird.x + bird.w > p.x &&
                     bird.x < p.x + p.w &&
-                    (bird.y < p.top || bird.y + bird.h > canvas.height - p.bottom)
+                    (bird.y < p.top || bird.y + bird.h > canvas.height - bottomHeight)
                 ) {
                     bird.die();
                 }
@@ -656,6 +670,38 @@ window.addEventListener('keydown', function (e) {
         }
     }
 });
+
+// Mobile Touch Controls
+canvas.addEventListener('touchstart', function (e) {
+    e.preventDefault(); // Prevent scrolling
+    if (gameState === 'PLAYING') {
+        // Touch controls P1
+        const p1 = birds.find(b => b.controls === 'SPACE');
+        if (p1) p1.jump();
+    } else if (gameState === 'START' || gameState === 'GAMEOVER') {
+        // Add a small delay/check to ensure we don't accidentally restart immediately after dying
+        // But for now, simple tap to start
+
+        // Check if we are interacting with UI buttons - the buttons have their own listeners
+        // But the canvas covers the whole screen in CSS?
+        // UI layer is ON TOP of canvas (z-index implicit or absolute).
+        // If clicking UI, this shouldn't fire if UI stops propagation?
+        // Actually UI is in a separate div #ui-layer on top.
+        // So clicking SVG buttons should be fine.
+        // But if screen is hidden?
+
+        // Wait, startBtn handles clicking. Start screen overlay handles?
+        // If screens are active, canvas touch should probably do nothing?
+        // Otherwise you might tap "Start" and jump immediately.
+        // Let's only allow tap to restart if game over screen is delay?
+
+        // Actually, standard behavior:
+        // Start Screen: Tap button to start. Tap elsewhere?
+        // Game Over: Tap button to restart.
+
+        // So we probably don't need global touch for restart, just for JUMP.
+    }
+}, { passive: false });
 
 canvas.addEventListener('click', function () {
     if (gameState === 'PLAYING') {
