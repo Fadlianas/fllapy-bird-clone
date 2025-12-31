@@ -12,8 +12,10 @@
 <body class="dark-mode">
     <div class="game-container">
         <canvas id="gameCanvas"></canvas>
+        <audio id="bg-music" loop src="Midnight_Lo-fi_Chiptune_FULL_SONG.mp3"></audio>
         <div id="ui-layer">
             <button id="theme-toggle" aria-label="Toggle Dark Mode">☀️</button>
+            <button id="music-toggle" aria-label="Toggle Music">🎵</button>
             <div id="score-container">
                 <div id="score">0</div>
                 <div id="best-score">Best: <span id="best-score-val">0</span></div>
@@ -72,6 +74,7 @@
                 <p>Score: <span id="final-score">0</span></p>
                 <p class="best-score-display">Best: <span id="final-best-score">0</span></p>
                 <button id="restart-btn">Try Again</button>
+                <button id="menu-btn">Main Menu</button>
             </div>
         </div>
     </div>

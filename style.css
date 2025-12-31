@@ -143,6 +143,10 @@ button:active {
     opacity: 0.8;
 }
 
+#menu-btn {
+    margin-top: 15px;
+}
+
 #theme-toggle {
     position: absolute;
     top: 20px;
@@ -155,6 +159,21 @@ button:active {
     z-index: 20;
     pointer-events: auto;
     /* Enable clicking since ui-layer is none */
+    backdrop-filter: blur(4px);
+}
+
+#music-toggle {
+    position: absolute;
+    top: 20px;
+    right: 80px;
+    /* Spaced out from theme toggle */
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    line-height: 1;
+    z-index: 20;
+    pointer-events: auto;
     backdrop-filter: blur(4px);
 }
 

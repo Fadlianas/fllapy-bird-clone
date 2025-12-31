@@ -42,6 +42,7 @@ const startScreen = document.getElementById('start-screen');
 const gameOverScreen = document.getElementById('game-over-screen');
 const startBtn = document.getElementById('start-btn');
 const restartBtn = document.getElementById('restart-btn');
+const menuBtn = document.getElementById('menu-btn');
 
 // Mode Selection
 const modeBtns = document.querySelectorAll('.mode-btn');
@@ -73,6 +74,8 @@ function setupAvatarSelection(options) {
 setupAvatarSelection(p1Options);
 setupAvatarSelection(p2Options);
 const themeToggle = document.getElementById('theme-toggle');
+const musicToggle = document.getElementById('music-toggle');
+const bgMusic = document.getElementById('bg-music');
 
 // Background Gradients
 const bgGradients = [
@@ -226,6 +229,40 @@ themeToggle.addEventListener('click', () => {
         // Reset to default for the mode if at start
         document.body.style.background = '';
     }
+});
+
+// Audio Management
+let isMuted = localStorage.getItem('flappyMuted') === 'true';
+
+// Initialize audio state
+bgMusic.muted = isMuted;
+musicToggle.innerText = isMuted ? '🔇' : '🎵';
+
+// Try to play on load (might be blocked)
+bgMusic.play().catch(() => {
+    // Expected behavior: Autoplay policy may block this until interaction
+    console.log("Autoplay blocked, waiting for interaction");
+});
+
+// Ensure it plays on first interaction if blocked
+window.addEventListener('click', () => {
+    if (bgMusic.paused) {
+        bgMusic.play().catch(e => console.error("Audio play failed:", e));
+    }
+}, { once: true });
+
+musicToggle.addEventListener('click', () => {
+    isMuted = !isMuted;
+    bgMusic.muted = isMuted;
+    musicToggle.innerText = isMuted ? '🔇' : '🎵';
+    localStorage.setItem('flappyMuted', isMuted);
+
+    // Also try play on toggle click if it wasn't playing
+    if (!isMuted && bgMusic.paused) {
+        bgMusic.play();
+    }
+
+    musicToggle.blur();
 });
 
 // Bird Class
@@ -719,6 +756,19 @@ startBtn.addEventListener('click', () => {
 restartBtn.addEventListener('click', () => {
     startGame();
     restartBtn.blur();
+});
+
+menuBtn.addEventListener('click', () => {
+    gameState = 'START';
+    gameOverScreen.classList.remove('active');
+    startScreen.classList.add('active');
+
+    // Reset game objects for background view
+    initBirds();
+    pipes.reset();
+    frames = 0;
+
+    menuBtn.blur();
 });
 
 // New UI Listeners (To be added in HTML, handled here protectively)
